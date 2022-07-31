@@ -51,13 +51,25 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-function addNewStory(evt){
+// Gets value from new story form and adds to DOM
+
+async function addNewStory(evt){
   console.debug('addNewStory');
   evt.preventDefault();
+  // get form data
   const title = $('#story-title').val();
   const author = $('#author-name').val();
   const url = $('#story-url').val();
-  
+  // add new story and hide form
+  const newStory = await storyList.addStory(currentUser, {title, author, url});
+  $('.story-form').hide();
+  // generate markup for new story, prepend to page and show
+  const storyMarkup = generateStoryMarkup(newStory);
+  $allStoriesList.prepend(storyMarkup);
+  $allStoriesList.show();
+  // clear form data
+  $('.story-form').trigger('reset')
+
 }
 
 $('.story-form').on('click', 'button', addNewStory);
