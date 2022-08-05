@@ -42,4 +42,5 @@ function navStoryClick(evt) {
   $('.story-form').show();
 }
 
+// Handles nav create story click
 $('.main-nav-links').on('click', 'a', navStoryClick);

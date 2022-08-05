@@ -24,8 +24,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    const url = new URL(this.url);
+    return url.hostname;
   }
 }
 
@@ -74,7 +74,6 @@ class StoryList {
    */
 
   async addStory(user, {title, author, url}) {
-    // UNIMPLEMENTED: complete this function!
     const token = user.loginToken;
     const res = await axios.post(`${BASE_URL}/stories`, {token, story:{title, author, url}})
     const story = new Story(res.data.story)
@@ -197,4 +196,18 @@ class User {
       return null;
     }
   }
+
+  // add story to favorites list
+  async addFavoriteStory(storyId){
+    const token = this.loginToken;
+    await axios.post(`${BASE_URL}/users/${this.username}/favorites/${storyId}`, {token});
+  }
+
+  // delete story from favorite list
+  async deleteFavoriteStory(storyId){
+    const token = this.loginToken;
+    await axios.delete(`${BASE_URL}/users/${this.username}/favorites/${storyId}`, {data : {token}});
+  }
+
+  
 }

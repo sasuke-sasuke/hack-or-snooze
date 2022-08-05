@@ -61,15 +61,15 @@ async function addNewStory(evt){
   const author = $('#author-name').val();
   const url = $('#story-url').val();
   // add new story and hide form
-  const newStory = await storyList.addStory(currentUser, {title, author, url});
+  await storyList.addStory(currentUser, {title, author, url});
   $('.story-form').hide();
-  // generate markup for new story, prepend to page and show
-  const storyMarkup = generateStoryMarkup(newStory);
-  $allStoriesList.prepend(storyMarkup);
-  $allStoriesList.show();
+  // get list of stories and put on page
+  storyList = await StoryList.getStories();
+  putStoriesOnPage();
   // clear form data
   $('.story-form').trigger('reset')
 
 }
 
+// Handles add story form button
 $('.story-form').on('click', 'button', addNewStory);
